@@ -1,0 +1,26 @@
+<resources>
+    <string name="app_name">TheMovieDbApp</string>
+
+    <string name="vote_average_text">%1$d/10</string>
+    <string name="vote_count_text">(%1$d)</string>
+
+    <string name="release_date_format">dd MMM YYYY</string>
+
+    <!-- Details -->
+    <string name="details_screen_title">Movie Details</string>
+
+    <!-- Filter -->
+    <string name="filter_screen_title">Date Filter</string>
+    <string name="filter_by">Filter By:</string>
+    <string name="this_year">This year</string>
+    <string name="two_years">Two years</string>
+    <string name="ten_years">Ten years</string>
+    <string name="filter_button_text">Filter</string>
+    <string name="clear_button_text">Clear</string>
+
+    <string name="error_fetching_movies">An error occurred while fetching movies</string>
+    <string name="error_movie_not_found">Sorry, movie not found</string>
+    <string name="error_fetching_movie_details">An error occurred while fetching movie details</string>
+    <string name="genre_label">Genre:</string>
+    <string name="reload">RELOAD</string>
+</resources>
