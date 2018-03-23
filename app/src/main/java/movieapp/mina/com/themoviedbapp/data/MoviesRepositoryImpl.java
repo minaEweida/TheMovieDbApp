@@ -6,6 +6,7 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import io.reactivex.Single;
 import movieapp.mina.com.themoviedbapp.api.MoviesApi;
 import movieapp.mina.com.themoviedbapp.models.Movie;
 import movieapp.mina.com.themoviedbapp.models.MovieResponse;
@@ -57,11 +58,9 @@ public class MoviesRepositoryImpl implements MoviesRepository {
      *          page number to be fetched from the list
      * @param filter
      *          lower bound date filter for primary_release_date
-     * @param movieListListener
-     *          callback for presenter
      */
     @Override
-    public void getMovies(int page, Date filter, final MovieListListener movieListListener) {
+    public Single<MovieResponse> getMovies(int page, Date filter) {
         //Create a retrofit call object
         String dateFilter = null;
 
@@ -70,27 +69,7 @@ public class MoviesRepositoryImpl implements MoviesRepository {
         }
 
 
-        Call<MovieResponse> movies = mApi.getMovies(mApiKey, page, upperBoundDate, dateFilter);
-
-        movies.enqueue(new Callback<MovieResponse>() {
-            @Override
-            public void onResponse(Call<MovieResponse> call, Response<MovieResponse> response) {
-                if(response.body() != null && response.body().getResults() != null && !response.body().getResults().isEmpty()) {
-                    Log.d(TAG, "Returned " + response.body().getResults() + " movies");
-                    movieListListener.onMovieListResponse(response.body());
-                } else {
-                    Log.e(TAG, "No movies returned");
-                    movieListListener.onError(null);
-                }
-
-            }
-
-            @Override
-            public void onFailure(Call<MovieResponse> call, Throwable t) {
-                Log.e(TAG, t.getLocalizedMessage());
-                movieListListener.onError(t);
-            }
-        });
+        return mApi.getMovies(mApiKey, page, upperBoundDate, dateFilter);
     }
 
     /**
@@ -98,30 +77,10 @@ public class MoviesRepositoryImpl implements MoviesRepository {
      *
      * @param movieId
      *          Movie Id for the movie to be fetched
-     * @param movieDetailsListener
-     *          Callback for presenter
      */
     @Override
-    public void getMovieDetails(long movieId, final MovieDetailsListener movieDetailsListener) {
+    public Single<Movie> getMovieDetails(long movieId) {
         //Create a retrofit call object
-        Call<Movie> movies = mApi.getMovie(movieId, mApiKey);
-
-        movies.enqueue(new Callback<Movie>() {
-            @Override
-            public void onResponse(Call<Movie> call, Response<Movie> response) {
-                if(response.body() != null) {
-                    movieDetailsListener.OnMovieDetailsReady(response.body());
-                } else {
-                    Log.e(TAG, "No movie details returned");
-                    movieDetailsListener.onError(null);
-                }
-            }
-
-            @Override
-            public void onFailure(Call<Movie> call, Throwable t) {
-                Log.e(TAG, t.getLocalizedMessage());
-                movieDetailsListener.onError(t);
-            }
-        });
+        return mApi.getMovie(movieId, mApiKey);
     }
 }

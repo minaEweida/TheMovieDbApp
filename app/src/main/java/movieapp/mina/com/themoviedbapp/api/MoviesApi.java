@@ -1,5 +1,6 @@
 package movieapp.mina.com.themoviedbapp.api;
 
+import io.reactivex.Single;
 import movieapp.mina.com.themoviedbapp.models.Movie;
 import movieapp.mina.com.themoviedbapp.models.MovieResponse;
 import retrofit2.Call;
@@ -13,13 +14,13 @@ import retrofit2.http.Query;
 
 public interface MoviesApi {
     @GET("discover/movie?language=en-US&sort_by=popularity.desc&include_video=false&include_adult=false")
-    Call<MovieResponse> getMovies(@Query("api_key") String apiKey,
-                                  @Query("page") int page,
-                                  @Query("primary_release_date.lte") String upperBound,
-                                  @Query("primary_release_date.gte") String dateFilter);
+    Single<MovieResponse> getMovies(@Query("api_key") String apiKey,
+                                    @Query("page") int page,
+                                    @Query("primary_release_date.lte") String upperBound,
+                                    @Query("primary_release_date.gte") String dateFilter);
 
     @GET("movie/{movie_id}")
-    Call<Movie> getMovie(@Path("movie_id") long movieId,
+    Single<Movie> getMovie(@Path("movie_id") long movieId,
                          @Query("api_key") String apiKey);
 
 }

@@ -2,6 +2,7 @@ package movieapp.mina.com.themoviedbapp.data;
 
 import java.util.Date;
 
+import io.reactivex.Single;
 import movieapp.mina.com.themoviedbapp.models.Movie;
 import movieapp.mina.com.themoviedbapp.models.MovieResponse;
 
@@ -10,16 +11,6 @@ import movieapp.mina.com.themoviedbapp.models.MovieResponse;
  */
 
 public interface MoviesRepository {
-    void getMovies(int page, Date filter, MovieListListener movieListListener);
-    void getMovieDetails(long movieId, MovieDetailsListener movieDetailsListener);
-
-    interface MovieListListener {
-        void onMovieListResponse(MovieResponse movieResponse);
-        void onError(Throwable t);
-    }
-
-    interface MovieDetailsListener {
-        void OnMovieDetailsReady(Movie movie);
-        void onError(Throwable t);
-    }
+    Single<MovieResponse> getMovies(int page, Date filter);
+    Single<Movie> getMovieDetails(long movieId);
 }

@@ -4,6 +4,7 @@ import com.facebook.stetho.okhttp3.StethoInterceptor;
 import com.google.gson.FieldNamingPolicy;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.jakewharton.retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 
 import java.util.concurrent.TimeUnit;
 
@@ -30,6 +31,7 @@ public class MoviesApiFactory {
                 .baseUrl(sBaseUrl)
                 .client(makeOkHttpClient())
                 .addConverterFactory(GsonConverterFactory.create(makeGson()))
+                .addCallAdapterFactory(RxJava2CallAdapterFactory.create())
                 .build();
         return retrofit.create(MoviesApi.class);
     }
